@@ -13,11 +13,9 @@ angular.module('pokemonApp', ['ngRoute'])
         });
 })
 
-.controller("pokemonCtrl", function($scope, pokemonService){
-    pokemonService.getAllPokemons().then(function(data){
-		$scope.pokemons = data;
-	});
-})
+//.controller("pokemonCtrl", function($scope){
+//	});
+//})
 .service('pokemonService', function($http, $q){
 	this.getAllPokemons = function(){
 		var q = $q.defer();
