@@ -20,7 +20,7 @@ angular.module('pokemonApp', ['ngRoute'])
 	this.getAllPokemons = function(){
 		var q = $q.defer();
 		
-		$http.get("pokedex.json").then(function(data){
+		$http.get().then(function(data){
 			var all = data.data;
 			q.resolve(all);
 		}, function(err){
