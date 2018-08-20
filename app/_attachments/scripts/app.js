@@ -13,36 +13,28 @@ angular.module('pokemonApp', ['ngRoute'])
         });
 })
 
-//.controller("pokemonCtrl", function($scope){
-//	});
-//})
-.service('pokemonService', function($http, $q){
+.controller("pokemonCtrl", function($scope, pokemonSrv, saveService){
+	pokemonSrv.getAllPokemons().then(function(data){
+		for (var i = 0; i < data.length; i++) {
+			console.log(data[i]);
+			saveService.getObject(data[i].name)
+		}
+		
+		
+	});	
+})
+
+.service('pokemonSrv', function($http, $q){
 	this.getAllPokemons = function(){
 		var q = $q.defer();
+		var url = 'http://127.0.0.1:5984/pokemon1/aa22c07fd07281e7bafa3147f40010fe/pokemon.json'
 		
-		$http.get().then(function(data){
-			var all = data.data;
-			q.resolve(all);
+		$http.get(url).then(function(data){
+			q.resolve(data.data.docs);
 		}, function(err){
 			q.reject(err);
 		});	
 		
-		return q.promise;
-	};
-})
-
-.service("detailService", function($q, pokemonService){
-	var q = $q.defer();
-	this.getPokemonDetail = function(pokemon_id){
-		return pokemonService.getAllPokemons().then(function(data){
-			for(var i = 0; data.length; i++){
-				if(data[i].id == pokemon_id){
-					return data[i];
-				};
-			};
-		}, function(err){
-			q.reject(err);
-		});
 		return q.promise;
 	};
 })
