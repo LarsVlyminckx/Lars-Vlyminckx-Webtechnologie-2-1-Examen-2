@@ -21,18 +21,21 @@ angular.module('pokemonApp', ['ngRoute'])
 	});	
 	
 	$("#getInfo").on("click", function(e){
-		var startDate = $("#startDate").val().toLowerCase();
-		var endDate = $("#endDate").val().toLowerCase();
+		var pokemons = [];
+		var startDate = $("#startDate").val();
+		var endDate = $("#endDate").val();
 		
 		pokemonSrv.getAllDocs().then(function(data){
 			for (var i = 0; i < data.length - 1; i++) {
 				saveService.getObject(data[i].id).then(function(data){
 					if (data.owned > startDate && data.owned < endDate) {		
 						console.log(data.name);
+						pokemons.push(data.name)
 					}
 				});
 			}
 		});
+		$scope.pokemons = pokemons;
 	});
 	
 })
@@ -40,14 +43,14 @@ angular.module('pokemonApp', ['ngRoute'])
 .service('pokemonSrv', function($http, $q){
 	this.saveAllPokemonsToNewDatabase = function(){
 		var q = $q.defer();
-		var url = 'http://127.0.0.1:5984/pokemon1/aa22c07fd07281e7bafa3147f40010fe/pokemon.json'
+		//Aan te passen door link van json
+		var url = '../../../pokemon1/aa22c07fd07281e7bafa3147f40010fe/pokemon.json'
 		
 		$http.get(url).then(function(data){
 			q.resolve(data.data.docs);
 		}, function(err){
 			q.reject(err);
 		});	
-		
 		return q.promise;
 	};
 	this.getAllDocs = function(){
