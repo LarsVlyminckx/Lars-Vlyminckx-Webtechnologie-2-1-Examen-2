@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="jumbotron">
+    <p>Enter the name to get the info of a Pokemon.</p>
+    <div class="form-group">
+	  <label for="usr">Pokemon Name:</label>
+	  <input type="text" class="form-control" id="pokemon">
+	</div>
+	<button type="button" class="btn btn-primary" id="getInfo">Get info</button>
+  </div>
+  
+  <div class="jumbotron">
+    <h1>Chosen Pokemon</h1>      
+    <div class="form-group">
+	  <p>Status: {{status}}</p>
+	  <p>Name: {{naam}}</p>
+   	  <img ng-src="{{image}}" class="img-rounded"> 		
+	  <p>Description: {{description}}</p>
+	  <p>Types: 
+	  	<li ng-repeat="type in types">{{type}}</li>	
+	  </p>
+	</div>
+  </div>
+</div>
