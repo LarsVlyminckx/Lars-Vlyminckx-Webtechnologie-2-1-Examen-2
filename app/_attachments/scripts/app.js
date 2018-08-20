@@ -13,10 +13,10 @@ angular.module('pokemonApp', ['ngRoute'])
         });
 })
 
-.controller("pokemonCtrl", function($scope, pokemonSrv, saveService){
+.controller("pokemonCtrl", function($scope, pokemonSrv, saveSrv){
 	pokemonSrv.saveAllPokemonsToNewDatabase().then(function(data){
 		for (var i = 0; i < data.length; i++) {
-			saveService.setObject(data[i].name, data[i]);
+			saveSrv.setObject(data[i].name, data[i]);
 		}		
 	});	
 	
@@ -27,9 +27,8 @@ angular.module('pokemonApp', ['ngRoute'])
 		
 		pokemonSrv.getAllDocs().then(function(data){
 			for (var i = 0; i < data.length - 1; i++) {
-				saveService.getObject(data[i].id).then(function(data){
+				saveSrv.getObject(data[i].id).then(function(data){
 					if (data.owned > startDate && data.owned < endDate) {		
-						console.log(data.name);
 						pokemons.push(data.name)
 					}
 				});
@@ -43,6 +42,7 @@ angular.module('pokemonApp', ['ngRoute'])
 .service('pokemonSrv', function($http, $q){
 	this.saveAllPokemonsToNewDatabase = function(){
 		var q = $q.defer();
+		
 		//Aan te passen door link van json
 		var url = '../../../pokemon1/aa22c07fd07281e7bafa3147f40010fe/pokemon.json'
 		
@@ -67,7 +67,7 @@ angular.module('pokemonApp', ['ngRoute'])
 	};
 })
 
-.service('saveService', function($http, $q){
+.service('saveSrv', function($http, $q){
 	this.setObject = function(key, value){
 		$http.put("../../" + key, value);
 	};
